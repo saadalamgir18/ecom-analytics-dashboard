@@ -2,12 +2,11 @@
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-import { useDispatch, useSelector } from "react-redux";
-import { getIsOpen, toggleMenu } from "./navBarSlice";
+import { useSelector } from "react-redux";
+import { getIsOpen } from "./navBarSlice";
 import Link from "next/link";
 import Image from "next/image";
 export default function Logo() {
-  const dispatch = useDispatch();
   const isOpen = useSelector(getIsOpen);
   return (
     <Link href={"/"} className="flex items-center gap-2">

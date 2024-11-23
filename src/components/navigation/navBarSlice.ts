@@ -1,4 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { RootState } from "../../store/store"; // Adjust the path to your store file
+
 const initialState = {
   isOpen: false,
 };
@@ -16,4 +18,4 @@ export const { toggleMenu } = navBarSlice.actions;
 
 export default navBarSlice;
 
-export const getIsOpen = (state) => state.navbar.isOpen;
+export const getIsOpen = (state: RootState) => state.navbar.isOpen;
