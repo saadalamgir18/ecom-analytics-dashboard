@@ -1,10 +1,14 @@
+"use client";
 import React from "react";
 import Menutoggle from "./menu-toggle";
 import Logo from "./logo";
 import { ModeToggle } from "./mode-toggle";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import useSome from "@/hooks/useSome";
 
 export default function Navbar() {
+  const check = useSome();
+  if (!check) return null;
   return (
     <nav className="py-4 border-b ">
       <div className="md:w-[95%] w-[92%] mx-auto flex items-center justify-between">
