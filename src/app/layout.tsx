@@ -8,7 +8,7 @@ import Sidebar from "@/components/navigation/sidebar";
 
 const poppins = Poppins({
   subsets: ["latin"],
-  weight: ["100", "900"],
+  weight: ["300", "400", "500", "700"],
   style: ["normal", "italic"],
 });
 

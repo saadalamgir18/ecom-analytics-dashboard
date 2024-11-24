@@ -5,9 +5,9 @@ import { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
 import { ProductsDummyData } from "@/constants/data";
 import { DataTable } from "../ui/data-table";
+import { formatPrice } from "@/utils/formatePrice";
 
 export type TopProducts = {
-  id: number;
   name: string;
   revenue: number;
   price: number;
@@ -21,6 +21,10 @@ export const topProductsColumns: ColumnDef<TopProducts>[] = [
   {
     accessorKey: "revenue",
     header: "Revenue",
+    cell: ({ row }) => {
+      const price = row.getValue("revenue") as number;
+      return <>{formatPrice(price)}</>;
+    },
   },
   {
     accessorKey: "image",

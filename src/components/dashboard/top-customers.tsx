@@ -36,7 +36,6 @@ export const CustomerColumns: ColumnDef<topCustomer>[] = [
   },
 ];
 export default function TopCustomer({ data }: { data: topCustomer[] }) {
-  console.log(data);
   return (
     <AnalyticsCard title="Top Products" subtitle="Showing Most Sold Products">
       <DataTable columns={CustomerColumns} data={data} />

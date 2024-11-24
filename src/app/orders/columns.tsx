@@ -9,8 +9,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { formatDate } from "@/utils/formateDate";
+import { formatPrice } from "@/utils/formatePrice";
 export type Orders = {
-  id: string | number;
   orderNumber: string;
   totalAmount: number;
   date: number;
@@ -23,10 +24,19 @@ export const columns: ColumnDef<Orders>[] = [
   {
     accessorKey: "totalAmount",
     header: "Total Amout",
+    cell: ({ row }) => {
+      const price = row.getValue("totalAmount") as number;
+      return <>{formatPrice(price)}</>;
+    },
   },
   {
     accessorKey: "date",
     header: "Date",
+    cell: ({ row }) => {
+      const dateTimeStamp = row.getValue("date") as number;
+      const dateObject = new Date(dateTimeStamp);
+      return <span className="text-nowrap"> {formatDate(dateObject)}</span>;
+    },
   },
   {
     id: "actions",
