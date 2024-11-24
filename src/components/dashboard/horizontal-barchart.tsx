@@ -63,7 +63,7 @@ export function HorizontalBarChart() {
     <AnalyticsCard title="" subtitle="">
       <ChartContainer
         config={chartConfig}
-        className="mx-auto aspect-square max-h-[400px]"
+        className="mx-auto aspect-square max-h-[400px] mt-10"
       >
         <BarChart
           accessibilityLayer

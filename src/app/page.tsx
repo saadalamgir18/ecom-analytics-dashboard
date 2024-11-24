@@ -5,8 +5,26 @@ import { RadarCharts } from "@/components/dashboard/radar-chart";
 import Summary from "@/components/dashboard/summary";
 import TopCustomers from "@/components/dashboard/top-customers";
 import TopProducts from "@/components/dashboard/top-products";
+async function getCustomers() {
+  const res = await fetch(
+    `https://67426603e464749900907d2b.mockapi.io/Customers`,
+    { cache: "no-store" }
+  );
+  const data = await res.json();
+  return data;
+}
 
-export default function Home() {
+export type topCustomer = {
+  createdAt: string;
+  name: string;
+  image: string;
+  email: string;
+  order: number;
+  id: string;
+};
+export default async function Home() {
+  const data: topCustomer[] = await getCustomers();
+  const topCustomers = data.sort((a, b) => b.order - a.order).slice(0, 4);
   return (
     <div className="p-4 grid gap-5">
       <Summary />
@@ -19,8 +37,8 @@ export default function Home() {
         <PiGraph />
       </div>
       <div className="grid lg:grid-cols-2 gap-10">
-        <TopCustomers />
         <HorizontalBarChart />
+        <TopCustomers data={topCustomers} />
       </div>
     </div>
   );
