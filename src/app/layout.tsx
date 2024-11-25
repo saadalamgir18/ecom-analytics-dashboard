@@ -5,6 +5,7 @@ import Navbar from "@/components/navigation/navbar";
 import StoreProvider from "../providers/StoreProvider";
 import { ThemeProvider } from "@/providers/themprovider";
 import Sidebar from "@/components/navigation/sidebar";
+import { ToastProvider } from "@/providers/toast-provider";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -27,6 +28,7 @@ export default function RootLayout({
       <body className={`${poppins.className} `}>
         <StoreProvider>
           <ThemeProvider attribute={"class"} defaultTheme="system">
+            <ToastProvider />
             <Navbar />
             <main className="flex">
               <Sidebar />

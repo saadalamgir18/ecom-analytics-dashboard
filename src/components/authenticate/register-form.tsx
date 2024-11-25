@@ -1,5 +1,4 @@
 "use client";
-
 import { RegisterSchema } from "@/types/register-schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,7 +14,12 @@ import {
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import AuthCard from "./auth-card";
+import { useState } from "react";
+import { RegisterAccount } from "@/server/actions/register";
+import { useAction } from "next-safe-action/hooks";
+import FormError from "./form-error";
 export default function RegisterForm() {
+  const [error, setError] = useState("");
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
@@ -23,16 +27,27 @@ export default function RegisterForm() {
       password: "",
     },
   });
+  const { execute } = useAction(RegisterAccount, {
+    onSuccess(data) {
+      if (data.data?.error) {
+        setError(data.data?.error);
+      }
+    },
+  });
+  const onSubmit = (value: z.infer<typeof RegisterSchema>) => {
+    execute(value);
+    setError("");
+  };
   return (
     <>
       <AuthCard
         title="Register for an account"
-        backButtonHref="login"
+        backButtonHref="/login"
         backButtonLabel="already have an account?"
       >
         <div>
           <Form {...form}>
-            <form>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
               <div className="space-y-6">
                 <FormField
                   control={form.control}
@@ -77,6 +92,7 @@ export default function RegisterForm() {
                     </FormItem>
                   )}
                 />
+                <FormError message={error} />
               </div>
               <Button type="submit" className="w-full mt-6">
                 Register
