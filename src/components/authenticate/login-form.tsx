@@ -1,5 +1,4 @@
 "use client";
-import { RegisterSchema } from "@/types/register-schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -15,36 +14,36 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import AuthCard from "./auth-card";
 import { useState } from "react";
-import { RegisterAccount } from "@/server/actions/register";
 import { useAction } from "next-safe-action/hooks";
 import FormError from "./form-error";
-export default function RegisterForm() {
+import { LoginSchema } from "@/types/login-schema";
+import { LoginAccount } from "@/server/actions/login";
+export default function LoginForm() {
   const [error, setError] = useState("");
-  const form = useForm<z.infer<typeof RegisterSchema>>({
-    resolver: zodResolver(RegisterSchema),
+  const form = useForm<z.infer<typeof LoginSchema>>({
+    resolver: zodResolver(LoginSchema),
     defaultValues: {
       email: "",
-      name: "",
       password: "",
     },
   });
-  const { execute } = useAction(RegisterAccount, {
+  const { execute } = useAction(LoginAccount, {
     onSuccess(data) {
       if (data.data?.error) {
         setError(data.data?.error);
       }
     },
   });
-  const onSubmit = (value: z.infer<typeof RegisterSchema>) => {
+  const onSubmit = (value: z.infer<typeof LoginSchema>) => {
     execute(value);
     setError("");
   };
   return (
     <>
       <AuthCard
-        title="Register for an account"
-        backButtonHref="/login"
-        backButtonLabel="already have an account?"
+        title="Welcome Back!"
+        backButtonHref="/register"
+        backButtonLabel="Create a new account"
       >
         <div>
           <Form {...form}>
@@ -52,27 +51,14 @@ export default function RegisterForm() {
               <div className="space-y-6">
                 <FormField
                   control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Username</FormLabel>
-                      <FormControl>
-                        <Input {...field} placeholder="Saad" type="text" />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Email</FormLabel>
+                      <FormLabel>Email Address</FormLabel>
                       <FormControl>
                         <Input
                           {...field}
-                          placeholder="saad@example.com"
+                          placeholder="Enter Email"
                           type="email"
                           autoComplete="email"
                         />
@@ -81,6 +67,7 @@ export default function RegisterForm() {
                     </FormItem>
                   )}
                 />
+
                 <FormField
                   control={form.control}
                   name="password"
@@ -90,7 +77,7 @@ export default function RegisterForm() {
                       <FormControl>
                         <Input
                           {...field}
-                          placeholder="*****"
+                          placeholder="**********"
                           type="password"
                           autoComplete="current-password"
                         />
@@ -102,7 +89,7 @@ export default function RegisterForm() {
                 <FormError message={error} />
               </div>
               <Button type="submit" className="w-full mt-6">
-                Register
+                Log In
               </Button>
             </form>
           </Form>
